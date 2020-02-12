@@ -8,26 +8,12 @@ class AddTopping extends React.Component {
     this.state = {
       topping: {}
     };
-    this.onAddNewTopping = this.onAddNewTopping.bind(this);
     this.onToppingChange = this.onToppingChange.bind(this);
   }
 
   componentDidMount() {
     // To disable submit button at the beginning.
     this.props.form.validateFields();
-  }
-
-  onAddNewTopping(event) {
-    const { topping } = this.state;
-    event.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
-      }
-    });
-    axios.post("http://127.0.0.1:3000/toppings", topping).then(data => {
-      console.log(data);
-    });
   }
 
   onToppingChange(key, value) {
@@ -47,7 +33,6 @@ class AddTopping extends React.Component {
   }
 
   render() {
-    const { topping } = this.state;
     const {
       getFieldDecorator,
       getFieldsError,
@@ -56,9 +41,21 @@ class AddTopping extends React.Component {
     } = this.props.form;
     const nameError = isFieldTouched("name") && getFieldError("name");
     const priceError = isFieldTouched("price") && getFieldError("price");
-
+    const { onAddNewTopping } = this.props;
     return (
-      <Form className="add_topping_form" onSubmit={this.onAddNewTopping}>
+      <Form className="add_topping_form" onSubmit={(event) => {
+        const { topping } = this.state;
+        event.preventDefault();
+        this.props.form.validateFields((err, values) => {
+          if (!err) {
+            console.log("Received values of form: ", values);
+          }
+        });
+        axios.post("http://127.0.0.1:3000/toppings", topping).then(({ data }) => {
+          //console.log(data);
+          onAddNewTopping(data);
+        });
+      }}>
         <Form.Item
           validateStatus={nameError ? "error" : ""}
           help={nameError || ""}

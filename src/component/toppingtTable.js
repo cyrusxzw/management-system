@@ -5,29 +5,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import { Button } from "antd";
 
 export default class ToppingTable extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      toppings: []
-    };
-  }
-
-  componentDidMount() {
-    fetch("http://127.0.0.1:3000/toppings")
-      .then(res => {
-        return res.json();
-      })
-      .then(data => {
-        this.setState({
-          toppings: data
-        });
-      });
-  }
 
   render() {
-    const { toppings } = this.state;
+    const { toppings } = this.props;
     return (
       <div>
         <TableContainer>
@@ -45,7 +28,7 @@ export default class ToppingTable extends React.Component {
                   <TableRow key={id}>
                     <TableCell>{name}</TableCell>
                     <TableCell>{price}</TableCell>
-                    <TableCell><button>Delete</button></TableCell>
+                    <TableCell><Button>Delete</Button></TableCell>
                   </TableRow>
                 );
               })}

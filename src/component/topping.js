@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu, Icon, Typography } from "antd";
 import ToppingTable from "./toppingtTable";
 import WrappedAddTopping from "./addTopping";
 
@@ -8,12 +8,37 @@ export default class Topping extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: false
+       toppings: []
     };
+
+    this.onAddNewTopping = this.onAddNewTopping.bind(this);
+  }
+
+  componentDidMount() {
+    fetch("http://127.0.0.1:3000/toppings")
+      .then(res => {
+        return res.json();
+      })
+      .then(data => {
+        this.setState({
+          toppings: data
+        });
+      });
+  }
+
+  onAddNewTopping(topping) {
+    const { toppings } = this.state;
+    this.setState({
+      toppings: [
+        ...toppings,
+        topping
+      ]
+    });
   }
 
   render() {
     const { Header, Content, Footer, Sider } = Layout;
+    const { Title } = Typography;
     return (
       <div>
         <Layout style={{ minHeight: "100vh" }}>
@@ -31,12 +56,12 @@ export default class Topping extends React.Component {
             </Menu>
           </Sider>
           <Layout>
-            <Header style={{ background: "#fff", padding: 0 }} />
+            <Header style={{ background: "#fff"}}><Title level={3} style={{ marginTop: "1rem"}}>Toppings</Title></Header>
             <Content style={{ margin: "0 16px" }}>
-              <ToppingTable></ToppingTable>
+              <ToppingTable toppings={this.state.toppings}></ToppingTable>
               <br />
               <br />
-              <WrappedAddTopping></WrappedAddTopping>
+              <WrappedAddTopping onAddNewTopping={this.onAddNewTopping}></WrappedAddTopping>
             </Content>
             <Footer style={{ textAlign: "center" }}>
               Pizza Management Sytstem
