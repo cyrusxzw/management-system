@@ -6,11 +6,15 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import { Button } from "antd";
+import axios from "axios";
 
 export default class ToppingTable extends React.Component {
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    const { toppings } = this.props;
+    const { toppings, deleteTopping } = this.props;
     return (
       <div>
         <TableContainer>
@@ -23,19 +27,32 @@ export default class ToppingTable extends React.Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {toppings.map(({ id, name, price }) => {
+              {toppings.map(topping => {
+                const { id, name, price } = topping;
                 return (
                   <TableRow key={id}>
                     <TableCell>{name}</TableCell>
                     <TableCell>{price}</TableCell>
-                    <TableCell><Button>Delete</Button></TableCell>
+                    <TableCell>
+                      <Button
+                        onClick={() => {
+                          const { id } = topping;
+                          axios
+                            .delete(`http://127.0.0.1:3000/toppings/${id}`)
+                            .then(
+                                deleteTopping(topping)
+                            );
+                        }}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 );
               })}
             </TableBody>
           </Table>
         </TableContainer>
-        
       </div>
     );
   }

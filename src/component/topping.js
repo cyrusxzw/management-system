@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout, Menu, Icon, Typography } from "antd";
-import ToppingTable from "./toppingtTable";
+import ToppingTable from "./toppingTable";
 import WrappedAddTopping from "./addTopping";
 
 
@@ -12,6 +12,7 @@ export default class Topping extends React.Component {
     };
 
     this.onAddNewTopping = this.onAddNewTopping.bind(this);
+    this.deleteTopping = this.deleteTopping.bind(this);
   }
 
   componentDidMount() {
@@ -24,6 +25,20 @@ export default class Topping extends React.Component {
           toppings: data
         });
       });
+  }
+
+  deleteTopping(topping) {
+    const { toppings } = this.state;
+    const { name:toppingName } = topping;
+    //console.log(toppingName);
+    const newToppings = toppings.filter(({ name }) => name !== toppingName);
+
+    console.log(newToppings);
+    this.setState({
+      toppings: [
+        ...newToppings
+      ]
+    })
   }
 
   onAddNewTopping(topping) {
@@ -58,7 +73,7 @@ export default class Topping extends React.Component {
           <Layout>
             <Header style={{ background: "#fff"}}><Title level={3} style={{ marginTop: "1rem"}}>Toppings</Title></Header>
             <Content style={{ margin: "0 16px" }}>
-              <ToppingTable toppings={this.state.toppings}></ToppingTable>
+              <ToppingTable toppings={this.state.toppings} deleteTopping={this.deleteTopping}></ToppingTable>
               <br />
               <br />
               <WrappedAddTopping onAddNewTopping={this.onAddNewTopping}></WrappedAddTopping>
