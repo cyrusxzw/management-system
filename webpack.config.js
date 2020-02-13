@@ -32,6 +32,9 @@ const config = {
         template: 'src/index.html'
     })
   ],
+  devServer: {
+    historyApiFallback: true
+  }
 };
 
 module.exports = config;

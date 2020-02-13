@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
 import "antd/dist/antd.css";
-import Topping from './component/topping'
+import PizzaAdmin from './component/pizzaAdmin'
 
-ReactDOM.render(<Topping />, document.getElementById('app'));
+ReactDOM.render(<BrowserRouter><PizzaAdmin /></BrowserRouter>, document.getElementById('app'));
