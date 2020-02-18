@@ -38,7 +38,7 @@ export default class ToppingTable extends React.Component {
                         onClick={() => {
                           const { id } = topping;
                           axios
-                            .delete(`http://127.0.0.1:3000/toppings/${id}`)
+                            .delete(`https://pizza-order-system-backend.herokuapp.com/toppings/${id}`)
                             .then(
                                 deleteTopping(topping)
                             );

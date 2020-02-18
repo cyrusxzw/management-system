@@ -14,7 +14,7 @@ export default class Topping extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:3000/toppings")
+    fetch("https://pizza-order-system-backend.herokuapp.com/toppings")
       .then(res => {
         return res.json();
       })

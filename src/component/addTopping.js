@@ -51,7 +51,7 @@ class AddTopping extends React.Component {
             console.log("Received values of form: ", values);
           }
         });
-        axios.post("http://127.0.0.1:3000/toppings", topping).then(({ data }) => {
+        axios.post("https://pizza-order-system-backend.herokuapp.com/toppings", topping).then(({ data }) => {
           //console.log(data);
           onAddNewTopping(data);
         });
